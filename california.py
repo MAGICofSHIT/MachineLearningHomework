@@ -28,12 +28,12 @@ print(X[0, :])
 # 模型训练
 # 分割数据集
 X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y
-                                                                    , test_size=0.2, random_state=20, shuffle=True)
+                                                                    , test_size=0.3, random_state=420, shuffle=True)
 # 输出分割后训练集、测试集的维度
-# print('X_train.shape:', X_train.shape)
-# print('X_test.shape:', X_test.shape)
-# print('y_train.shape:', y_train.shape)
-# print('y_test.shape:', y_test.shape)
+print('X_train.shape:', X_train.shape)
+print('X_test.shape:', X_test.shape)
+print('y_train.shape:', y_train.shape)
+print('y_test.shape:', y_test.shape)
 
 # 生成线性回归模型
 model = LinearRegression()
@@ -64,10 +64,11 @@ from sklearn.pipeline import Pipeline
 # 编写函数，将线性回归模型与多项式结合
 def polynomial_LinearRegression_model(degree=1):
     poly = PolynomialFeatures(degree=degree, include_bias=False)
-    model = make_pipeline(StandardScaler(), LinearRegression())
+    # model = make_pipeline(StandardScaler(), LinearRegression())
     # model = LinearRegression(normalize=True)
     # 用一个管道将线性回归模型和多项式串起来
-    pipeline_model = Pipeline([("polynomial_features", poly), ("linear_regression", model)])
+    pipeline_model = Pipeline(
+        [("scaler", StandardScaler()), ("polynomial_features", poly), ("linear_regression", LinearRegression())])
     return pipeline_model
 
 
@@ -80,16 +81,16 @@ model.fit(X_train, y_train)
 trainData_score = model.score(X_train, y_train)
 testData_score = model.score(X_test, y_test)
 # 输出得分
-print('trainData_score:', trainData_score)
-print('testData_score:', testData_score)
+print('二阶多项式trainData_score:', trainData_score)
+print('二阶多项式testData_score:', testData_score)
 
 # 生成包含三阶多项式的线性回归模型
 model = polynomial_LinearRegression_model(degree=3)
 model.fit(X_train, y_train)
 trainData_score = model.score(X_train, y_train)
 testData_score = model.score(X_test, y_test)
-print('trainData_score:', trainData_score)
-print('testData_score:', testData_score)
+print('三阶多项式trainData_score:', trainData_score)
+print('三阶多项式testData_score:', testData_score)
 
 # 学习曲线
 from sklearn.model_selection import learning_curve
@@ -143,4 +144,7 @@ for i in range(len(degrees)):
     plot_learning_curve(polynomial_LinearRegression_model(degrees[i])
                         , titles.format(degrees[i]), X, y, ylim=(0.01, 1.01), cv=cv)
     # 显示
-    plt.show()
+    # plt.show()
+    # plt.figure(figsize=(6, 6))
+    plt.savefig('./Pictures/learning_curve_' + str(i + 1) + '.png')
+    plt.close()
