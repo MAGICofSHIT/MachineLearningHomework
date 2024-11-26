@@ -9,7 +9,7 @@ plt.rcParams['axes.unicode_minus'] = False
 
 # 加载鸢尾花数据集
 iris = load_iris()
-X = iris.data[:, [0, 1, 2]]  # 选择萼片长度、萼片宽度和花瓣长度三个特征
+X = iris.data[:, :]  # 选择所有特征
 y = iris.target
 
 # 拆分训练集和测试集

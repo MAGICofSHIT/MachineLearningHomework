@@ -3,6 +3,9 @@ from sklearn.datasets import fetch_california_housing  # 加载加州房价数�
 from sklearn.model_selection import train_test_split  # 划分训练集和测试集
 from sklearn.linear_model import LinearRegression  # 线性回归模型
 from sklearn.metrics import r2_score, mean_squared_error  # 评估指标
+from sklearn.preprocessing import StandardScaler  # 数据标准化
+from sklearn.pipeline import Pipeline  # 管道简化步骤
+from sklearn.preprocessing import PolynomialFeatures  # 多项式特征
 import matplotlib.pyplot as plt  # 导入绘图库
 
 plt.rcParams['font.sans-serif'] = ['SimHei']  # 图片标题中文显示
@@ -18,8 +21,12 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.25, random_state=420
 )
 
-# 初始化线性回归模型
-model = LinearRegression()
+# 数据预处理与模型训练的管道
+model = Pipeline([
+    ('scaler', StandardScaler()),  # 标准化数据，将均值调整为0，方差调整为1
+    ('poly', PolynomialFeatures(degree=2, include_bias=False)),  # 加入二次多项式特征
+    ('regressor', LinearRegression())  # 线性回归模型
+])
 
 # 使用训练集训练模型
 model.fit(X_train, y_train)
@@ -52,4 +59,4 @@ plt.legend(fontsize=10)  # 图例
 plt.grid(True, linestyle='--', alpha=0.7)  # 添加网格方便观察
 
 # 保存图像
-plt.savefig('./Pictures/Linear Regression.png')
+plt.savefig('./Pictures/Linear Regression pre.png')
