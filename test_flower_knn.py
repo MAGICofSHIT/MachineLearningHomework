@@ -57,12 +57,12 @@ plt.legend(loc="upper left", fontsize=12)
 plt.colorbar()  # 添加颜色条
 plt.savefig('./Pictures/KNN_Classification.png')
 
-# 存储不同 K 值下的准确率
+# 存储不同 k 值下的准确率
 k_values = range(1, 16)  # K 值从 1 到 15
 train_accuracies = []
 test_accuracies = []
 
-# 遍历不同的 K 值
+# 遍历不同的 k 值
 for k in k_values:
     knn_model = KNeighborsClassifier(n_neighbors=k, p=2)
     knn_model.fit(X_train, y_train)
@@ -74,15 +74,15 @@ for k in k_values:
     train_accuracies.append(train_accuracy)
     test_accuracies.append(test_accuracy)
 
-    print(f"K={k}的KNN模型: 训练集准确率={train_accuracy:.6f}%，测试集准确率={test_accuracy:.6f}%")
+    print(f"k={k}的KNN模型: 训练集准确率={train_accuracy:.6f}%，测试集准确率={test_accuracy:.6f}%")
 
 # 绘制 K 值与准确率的折线图
 plt.figure(figsize=(12, 7))
 plt.plot(k_values, train_accuracies, label="训练集准确率", marker='o', linestyle='-')
 plt.plot(k_values, test_accuracies, label="测试集准确率", marker='^', linestyle='--')
-plt.xlabel("K 值")
+plt.xlabel("k 值")
 plt.ylabel("准确率 (%)")
-plt.title("不同 K 值下 KNN 模型的分类准确率")
+plt.title("不同 k 值下 KNN 模型的分类准确率")
 plt.legend(loc="best")
 plt.grid(True)
 plt.savefig('./Pictures/KNN_Accuracy_vs_K.png')
